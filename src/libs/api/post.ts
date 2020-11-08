@@ -12,3 +12,19 @@ export const getList = async (): Promise<Entry<IPostFields>[]> => {
     console.log(e);
   }
 };
+
+export const get = async (slug: string): Promise<Entry<IPostFields>> => {
+  try {
+    const postEntries = await client.getEntries<IPostFields>({
+      content_type: 'blogPost',
+      'fields.slug': slug,
+    });
+    if (postEntries.items.length === 1) {
+      return postEntries.items[0];
+    } else {
+      throw new Error('page not found');
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import Head from 'next/head';
 import { Entry } from 'contentful';
 import { getList } from '@/libs/api/post';
@@ -16,15 +17,10 @@ const IndexPage: React.FC<IProps> = ({ posts }) => {
         <title>Next.js + Contentful</title>
       </Head>
       {posts.map((post) => (
-        <div>
-          <h1>title: {post.fields.title}</h1>
-          <p>slug: {post.fields.slug}</p>
-          <p>description: {post.fields.description}</p>
-          <h3>category: {post.fields.category.fields.name}</h3>
-          <span>tags: {post.fields.tags.map((tag) => tag.fields.name)}</span>
-          <h1>title: {post.fields.title}</h1>
-          <img src={`https:${post.fields.image.fields}`} alt="" />
-          <p>{post.fields.content}</p>
+        <div key={post.sys.id}>
+          <Link href={`/posts/${post.fields.slug}`}>
+            <a>{post.fields.title}</a>
+          </Link>
         </div>
       ))}
     </>
